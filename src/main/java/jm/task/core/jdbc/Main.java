@@ -6,16 +6,22 @@ import jm.task.core.jdbc.service.UserServiceImpl;
 public class Main {
     private static UserServiceImpl userServiceImpl = new UserServiceImpl();
 
-
     public static void main(String[] args) {
+        //удаление таблицы
+        userServiceImpl.dropUsersTable();
+
         // создание таблицы
         userServiceImpl.createUsersTable();
 
+        final String testName = "Bilbo";
+        final String testLastName = "Baggins";
+        final byte testAge = 60;
+
         //создание пользователей
-        User bilbo = new User("Bilbo", "Baggins", (byte) 150);
-        User frodo = new User("Frodo", "Baggins", (byte) 60);
-        User sam = new User("Samwise", "Ganja", (byte) 65);
-        User gandalf = new User("Gandalf", "White", (byte) 999);
+        User bilbo = new User(testName, testLastName, testAge);
+        User frodo = new User("Frodo", "Baggins", (byte) 30);
+        User sam = new User("Samwise", "Ganja", (byte) 35);
+        User gandalf = new User("Gandalf", "White", (byte) 99);
 
         //добавление пользователей
         userServiceImpl.saveUser(bilbo.getName(), bilbo.getLastName(), bilbo.getAge());
@@ -26,11 +32,15 @@ public class Main {
         //вывод пользователей
         userServiceImpl.getAllUsers();
 
+        //вывод одного пользователя
+        User user = userServiceImpl.getAllUsers().get(0);
+        System.out.println(user.getName());
+
         //очистка таблицы
         userServiceImpl.cleanUsersTable();
 
         //удаление таблицы
-        userServiceImpl.dropUsersTable();
+        //userServiceImpl.dropUsersTable();
 
     }
 }

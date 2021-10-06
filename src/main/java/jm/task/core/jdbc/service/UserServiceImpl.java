@@ -7,6 +7,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class UserServiceImpl implements UserService {
@@ -43,7 +45,7 @@ public class UserServiceImpl implements UserService {
 
     public void saveUser(String name, String lastName, byte age) {
         String sql = "INSERT INTO jlpp.user ( name, lastname, age)\n" +
-                "VALUES ('"+ name +"', '" + lastName + "', '" + age + "') ;\n";
+                "VALUES ('" + name + "', '" + lastName + "', '" + age + "') ;\n";
         Util connect = new Util();
         try {
             PreparedStatement statement = connect.Util().prepareStatement(sql);
@@ -56,23 +58,40 @@ public class UserServiceImpl implements UserService {
     }
 
     public void removeUserById(long id) {
-
+        String sql = "DELETE FROM jlpp.user WHERE id='" + id + "' ";
+        Util connect = new Util();
+        try {
+            PreparedStatement statement = connect.Util().prepareStatement(sql);
+            statement.executeUpdate();
+            System.out.println("User с id – " + id + " был удален.");
+            connect.Util().close();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
     }
 
     public List<User> getAllUsers() {
         String sql = "SELECT * FROM jlpp.user;";
         Util connect = new Util();
+        List<User> userList = new ArrayList();
         try {
             Statement statement = connect.Util().prepareStatement(sql);
             ResultSet result = statement.executeQuery(sql);
-            while (result.next()){
-                System.out.println(result.getString(2));
+            int index = 0;
+            while (result.next()) {
+                String name = result.getString(2);
+                String lastName = result.getString(3);
+                Byte age = Byte.valueOf(result.getString(4));
+                User user = new User(name, lastName, age);
+                userList.add(index, user);
+                System.out.println(user.getName() + " " + user.getLastName() + " " + user.getAge());
+                index++;
             }
             connect.Util().close();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-        return null;
+        return userList;
     }
 
     public void cleanUsersTable() {
