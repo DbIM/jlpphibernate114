@@ -12,7 +12,7 @@ import java.sql.SQLException;
 import java.util.Properties;
 
 public class Util {
-    // реализуйте настройку соеденения с БД
+    //previous jdbc connection settings
     private String url = "jdbc:mysql://127.0.0.1:3306/jlpp?serverTimezone=UTC";
     private String user = "root";
     private String password = "1234567";
@@ -27,6 +27,7 @@ public class Util {
         return connection;
     }
 
+    //hibernate connection settings
     private static SessionFactory sessionFactory;
 
     public static SessionFactory getSessionFactory() {
@@ -40,10 +41,6 @@ public class Util {
                 settings.put(Environment.USER, "root");
                 settings.put(Environment.PASS, "1234567");
                 settings.put(Environment.DIALECT, "org.hibernate.dialect.MySQL5Dialect");
-                settings.put(Environment.SHOW_SQL, "true");
-                settings.put(Environment.CURRENT_SESSION_CONTEXT_CLASS, "tread");
-                settings.put(Environment.HBM2DDL_AUTO, "create-drop");
-
                 configuration.setProperties(settings);
                 configuration.addAnnotatedClass(User.class);
 
@@ -53,9 +50,8 @@ public class Util {
                 if (!sessionFactory.isClosed()) {
                     System.out.println("Connection established");
                 }
-
             } catch (Exception e) {
-                System.out.println("Не удалось загрузить драйвер");
+                System.out.println("Driver couldn't be loaded");
                 e.printStackTrace();
             }
 
