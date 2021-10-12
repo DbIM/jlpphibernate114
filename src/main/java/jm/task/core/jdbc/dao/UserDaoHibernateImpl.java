@@ -10,7 +10,6 @@ import java.util.List;
 
 
 public class UserDaoHibernateImpl implements UserDao {
-    Util util = new Util();
     Transaction transaction = null;
 
     public UserDaoHibernateImpl() {

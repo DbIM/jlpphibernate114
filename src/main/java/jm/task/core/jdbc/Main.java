@@ -8,11 +8,10 @@ public class Main {
     private static UserServiceImpl userServiceImpl = new UserServiceImpl();
 
     public static void main(String[] args) {
-        UserDaoHibernateImpl userDaoHibernate = new UserDaoHibernateImpl();
-        userDaoHibernate.dropUsersTable();
-        userDaoHibernate.createUsersTable();
-        userDaoHibernate.saveUser("DAO Name", "DAO Last name", (byte)10);
-        userDaoHibernate.getAllUsers();
-        userDaoHibernate.cleanUsersTable();
+        userServiceImpl.dropUsersTable();
+        userServiceImpl.createUsersTable();
+        userServiceImpl.saveUser("DAO Name", "DAO Last name", (byte)10);
+        userServiceImpl.getAllUsers();
+        userServiceImpl.cleanUsersTable();
     }
 }
